@@ -46,7 +46,7 @@ function listLoop(userList) {
     console.log("I love " + vegetables[i]);
 }
 
-//build function
+//build data function
 function buildTable(data) {
     // clear out data
     tbody.html("");
@@ -54,7 +54,7 @@ function buildTable(data) {
     //Loop data and add data
     data.forEach((dataRow) => {
         let row = tbody.append("tr");
-        
+
         //Loop each row and add as table cell
         Object.values(dataRow).forEach((val) => {
             let cell = row.append("td");
@@ -62,4 +62,23 @@ function buildTable(data) {
             }
         );
     });
-}
+};
+
+// build handleClick function
+function handleClick() {
+    // datetime from filter
+    let date = d3.select("#datetime").property("value");
+    let filteredData = tableData;
+    //filter data using date
+    if (date) {
+        filteredData = filteredData.filter(row => row.datetime === date);
+    };
+    //rebuild table using filtered data
+    buildTable(filteredData);
+};
+
+// Attach an event to listen for the form button
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+// Build the table when the page loads
+buildTable(tableData);
